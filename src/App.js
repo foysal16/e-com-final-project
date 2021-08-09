@@ -1,24 +1,47 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import ProductList from './components/Product/ProductList'
+import ProductDetails from './components/Product/productDetails'
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import { useState, useEffect } from "react";
 
-function App() {
+import "../node_modules/bootstrap/dist/css/bootstrap.css";
+import Navbar from './components/layout/Navbar';
+import Footer from './components/layout/Footer';
+
+const App =()=> {
+
+const [userList, setUserList] = useState([])
+
+
+const addUser = (userData) =>{
+  setUserList([...userList,userData]);
+}
+
+useEffect(()=>{
+  return () =>{
+
+  }
+},[userList]);
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+   <Router>
+     <Navbar />
+     <Switch>
+        <Route path="/">
+          <ProductList userList={userList} />
+        </Route>
+
+        <Route path="/prodcut-details/:id">
+          <ProductDetails />
+        </Route>
+
+        <Route path="/addproduct"></Route>
+        <Route path="*"><h1>404</h1></Route>
+     </Switch>
+
+     <Footer />
+   </Router>
   );
 }
 
