@@ -3,13 +3,14 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import { Grid } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 
 const ProductDetails = () => {
   const { id } = useParams();
+
+  const history = useHistory();
 
   const [ProductDetails, setProductDetails] = useState([]);
   useEffect(() => {
@@ -21,11 +22,17 @@ const ProductDetails = () => {
       .catch((error) => {
         console.log(error, "============ERROR");
       });
-  }, []);
+  }, [id]);
 
-  console.log(ProductDetails, "=========ProductDetails");
+  const UpdateProduct = (id) => {
+    history.push(`/Update-product/${id}`);
+  };
 
-  const seeDetails = () => {};
+  const DeleteProduct = (id) => {
+    axios.delete(`https://fakestoreapi.com/products/${id}`).then((response) => {
+      history.push("/");
+    });
+  };
 
   return (
     <React.Fragment>
@@ -37,6 +44,20 @@ const ProductDetails = () => {
         <p>{ProductDetails.description}</p>
         <p>Category: {ProductDetails.price}</p>
         <p>price: {ProductDetails.price}</p>
+        <Button
+          onClick={() => UpdateProduct(ProductDetails.id)}
+          variant="contained"
+          color="primary"
+        >
+          Update Product
+        </Button>
+        <Button
+          onClick={() => DeleteProduct(ProductDetails.id)}
+          variant="contained"
+          color="secondary"
+        >
+          Delete Product
+        </Button>
       </Container>
     </React.Fragment>
   );

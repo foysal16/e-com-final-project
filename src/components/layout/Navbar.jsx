@@ -23,14 +23,14 @@ const Navbar = () => {
         <div className="collapse navbar-collapse">
           <ul className="navbar-nav mr-auto">
             <li className="nav-item">
-              <NavLink className="nav-link" exact to="/product-list">
+              <NavLink className="nav-link" exact to="/">
                 Home
               </NavLink>
             </li>
           </ul>
         </div>
 
-        <Link className="btn btn-outline-light" to="/addproduct">
+        <Link className="btn btn-outline-light" exact to="/addproduct">
           Add Product
         </Link>
       </div>

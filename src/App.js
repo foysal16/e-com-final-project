@@ -1,6 +1,9 @@
 import React from 'react';
 import ProductList from './components/Product/ProductList'
 import ProductDetails from './components/Product/productDetails'
+import AddProduct from './components/Product/AddProduct';
+import UpdateProduct from './components/Product/UpdateProduct';
+
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import { useState, useEffect } from "react";
 
@@ -28,15 +31,21 @@ useEffect(()=>{
    <Router>
      <Navbar />
      <Switch>
-        <Route path="/">
+        <Route exact path="/">
           <ProductList userList={userList} />
         </Route>
 
-        <Route path="/prodcut-details/:id">
-          <ProductDetails />
+        <Route path="/product-details/:id">
+          <ProductDetails userList={userList} />
         </Route>
 
-        <Route path="/addproduct"></Route>
+        <Route exact path="/addproduct">
+          <AddProduct />
+        </Route>
+
+        <Route exact path="/Update-product/:id">
+          <UpdateProduct />
+        </Route>
         <Route path="*"><h1>404</h1></Route>
      </Switch>
 

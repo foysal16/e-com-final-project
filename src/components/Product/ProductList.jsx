@@ -27,6 +27,7 @@ const ProductList = () => {
     history.push(`/product-details/${id}`);
   };
 
+  console.log(seeDetails, "============seeDetails");
   return (
     <React.Fragment>
       <CssBaseline />
