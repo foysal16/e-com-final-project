@@ -2,11 +2,14 @@ import React from "react";
 import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { Grid } from "@material-ui/core";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
+import { useHistory } from "react-router-dom";
 
 const UpdateProduct = () => {
-  const [product, setProduct] = useState({
+  const history = useHistory();
+
+  const [product, setProductEdit] = useState({
     title: "",
     price: "",
     description: "",
@@ -14,23 +17,48 @@ const UpdateProduct = () => {
     category: "",
   });
 
-  const UpdateProduct = (p, key) => {
-    setProduct({ ...product, [key]: p.target.value });
+  const UpdateProduct = (p) => {
+    setProductEdit({ ...product, [p.target.value]: p.target.value });
+    console.log(p.target.value, "=======previous data");
   };
 
-  const UpdateNewProduct = () => {
+  /*const onSubmitsave = async (e) => {
+    e.preventDefault();
+    axios.put(`https://fakestoreapi.com/products/:id`).then((response) => {
+      history.push("/");
+    });
+  };*/
+
+  const UpdateNewProduct = async (p) => {
+    p.preventDefault();
     axios
-      .put("https://fakestoreapi.com/products", {
+      .put("https://fakestoreapi.com/products/:id", {
         title: product.title,
         price: product.price,
         description: product.description,
         image: product.image,
         category: product.category,
       })
-
+      .then((response) => {
+        history.push("/");
+      })
       .catch((error) => {
         console.log(error, "============ERROR");
       });
+  };
+
+  useEffect(() => {
+    loadUsers();
+  }, []);
+
+  const loadUsers = async (p) => {
+    const result = await axios.get("https://fakestoreapi.com/products/:id");
+
+    setProductEdit(result.data);
+
+    console.log(result.data, "=======Data");
+    // setUser(result.data.reverse());
+    //setUser(result.data);
   };
 
   return (
@@ -87,7 +115,7 @@ const UpdateProduct = () => {
             ></input>
           </div>
 
-          <button onClick={UpdateNewProduct()}>Upadate Product</button>
+          <button onClick={(p) => UpdateNewProduct(p)}>Upadate Product</button>
         </Grid>
       </Container>
     </React.Fragment>
