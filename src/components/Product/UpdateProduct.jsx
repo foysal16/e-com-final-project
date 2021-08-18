@@ -4,10 +4,11 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import { Grid } from "@material-ui/core";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 
 const UpdateProduct = () => {
   const history = useHistory();
+  const { id } = useParams();
 
   const [product, setProductEdit] = useState({
     title: "",
@@ -32,7 +33,7 @@ const UpdateProduct = () => {
   const UpdateNewProduct = async (p) => {
     p.preventDefault();
     axios
-      .put("https://fakestoreapi.com/products/:id", {
+      .put(`https://fakestoreapi.com/products/${id}`, {
         title: product.title,
         price: product.price,
         description: product.description,
@@ -52,7 +53,7 @@ const UpdateProduct = () => {
   }, []);
 
   const loadUsers = async (p) => {
-    const result = await axios.get("https://fakestoreapi.com/products/:id");
+    const result = await axios.get(`https://fakestoreapi.com/products/${id}`);
 
     setProductEdit(result.data);
 
